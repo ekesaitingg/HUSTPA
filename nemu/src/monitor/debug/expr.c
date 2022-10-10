@@ -181,27 +181,71 @@ uint32_t check_parentheses(int p, int q)
   return result;
 }
 
+int op_level(int type)
+{
+  switch (type)
+  {
+  case TK_NEG:
+  case TK_POS:
+    return 1;
+  case TK_DEREFERENCE:
+    return 2;
+  case '*':
+  case '/':
+    return 3;
+  case '+':
+  case '-':
+    return 4;
+  case TK_EQ:
+  case TK_NOEQ:
+    return 5;
+  case TK_AND:
+    return 6;
+  case TK_OR:
+    return 7;
+  default:
+    return 0;
+  }
+}
+
 uint32_t findMainOp(int p, int q)
 {
   uint32_t op = p;
   int depth = 0;
+  int level = 0;
   for (int i = p; i <= q; i++)
   {
-    if (tokens[i].type == '(')
-      depth++;
-    if (tokens[i].type == ')')
-      depth--;
     if (depth == 0)
     {
-      if (tokens[i].type == '+' || tokens[i].type == '-' || tokens[i].type == '*' || tokens[i].type == '/' ||
-          tokens[i].type == TK_DEREFERENCE || tokens[i].type == TK_EQ || tokens[i].type == TK_NOEQ || tokens[i].type == TK_AND || tokens[i].type == TK_OR)
+      if (tokens[i].type == '(')
+      {
+        depth++;
+        continue;
+      }
+      else if (tokens[i].type == '(')
+      {
+        printf("Bad expression in [%d, %d] for unexpected '(' at %d", p, q, i);
+        assert(0);
+      }
+      int new_level = op_level(tokens[i].type);
+      if (new_level > level)
       {
         op = i;
-        break;
+        level = new_level;
       }
     }
+    else
+    {
+      if (tokens[i].type == '(')
+        level++;
+      if (tokens[i].type == '(')
+        level--;
+    }
   }
-  return op;
+  if (depth != 0 || level == 0)
+  {
+    printf("Bad expression in [%d, %d]", p, q);
+  }
 }
 
 uint32_t eval(int p, int q, bool *success)
