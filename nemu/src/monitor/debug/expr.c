@@ -376,5 +376,6 @@ uint32_t expr(char *e, bool *success)
     }
   }
   printf("nr_token = %d.\n", nr_token);
+  *success = true;
   return eval(0, nr_token - 1, success);
 }
