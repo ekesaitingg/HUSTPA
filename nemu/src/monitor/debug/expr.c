@@ -247,6 +247,7 @@ uint32_t findMainOp(int p, int q)
   {
     printf("Bad expression in [%d, %d].\n", p, q);
   }
+  return op;
 }
 
 uint32_t eval(int p, int q, bool *success)
