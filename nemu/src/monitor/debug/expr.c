@@ -215,6 +215,7 @@ uint32_t findMainOp(int p, int q)
   int level = 0;
   for (int i = p; i <= q; i++)
   {
+    printf("i=%d.\n", i);
     if (depth == 0)
     {
       if (tokens[i].type == '(')
