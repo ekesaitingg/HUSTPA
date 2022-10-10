@@ -244,7 +244,7 @@ uint32_t findMainOp(int p, int q)
   }
   if (depth != 0 || level == 0)
   {
-    printf("Bad expression in [%d, %d]", p, q);
+    printf("Bad expression in [%d, %d].\n", p, q);
   }
 }
 
