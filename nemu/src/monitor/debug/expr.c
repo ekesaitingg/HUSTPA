@@ -236,6 +236,7 @@ uint32_t eval(int p, int q, bool *success)
     return value;
   }
   int check = check_parentheses(p, q);
+  printf("p=%d, q=%d.\n", p, q);
   if (check == 1) // 表达式被括号包裹的情形
   {
     return eval(p + 1, q - 1, success);
