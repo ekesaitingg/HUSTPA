@@ -224,10 +224,10 @@ uint32_t eval(int p, int q, bool *success)
     switch (tokens[p].type)
     {
     case TK_DEC:
-      value = strtoul(tokens[p].type, NULL, 10);
+      value = strtoul(tokens[p].str, NULL, 10);
       break;
     case TK_HEX:
-      value = strtoul(tokens[p].type, NULL, 16);
+      value = strtoul(tokens[p].str, NULL, 16);
       break;
     case TK_REG:
       value = isa_reg_str2val(&tokens[p].str[1], success);
