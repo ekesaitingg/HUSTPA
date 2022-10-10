@@ -234,9 +234,14 @@ uint32_t eval(int p, int q, bool *success)
     }
     return value;
   }
-  else if (check_parentheses(p, q) == true) // 表达式被括号包裹的情形
+  int check = check_parentheses(p, q);
+  if (check == 1) // 表达式被括号包裹的情形
   {
     return eval(p + 1, q - 1, success);
+  }
+  else if (check == -1)
+  {
+    printf("check parentheses error in [%d, %d].\n", p, q);
   }
   else //一般表达式的情形
   {
