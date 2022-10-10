@@ -229,7 +229,7 @@ uint32_t findMainOp(int p, int q)
         assert(0);
       }
       int new_level = op_level(tokens[i].type);
-      if (new_level > level)
+      if (new_level >= level)
       {
         op = i;
         level = new_level;
