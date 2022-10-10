@@ -215,7 +215,6 @@ uint32_t findMainOp(int p, int q)
   int level = 0;
   for (int i = p; i <= q; i++)
   {
-    printf("i=%d.\n", i);
     if (depth == 0)
     {
       if (tokens[i].type == '(')
@@ -282,7 +281,6 @@ uint32_t eval(int p, int q, bool *success)
     return value;
   }
   int check = check_parentheses(p, q);
-  printf("p=%d, q=%d.\n", p, q);
   if (check == 1) // 表达式被括号包裹的情形
   {
     return eval(p + 1, q - 1, success);
@@ -375,7 +373,6 @@ uint32_t expr(char *e, bool *success)
       }
     }
   }
-  printf("nr_token = %d.\n", nr_token);
   *success = true;
   return eval(0, nr_token - 1, success);
 }
