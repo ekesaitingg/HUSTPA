@@ -47,9 +47,9 @@ int main(int argc, char *argv[])
   int is_batch_mode = init_monitor(argc, argv);
 
   /* Receive commands from user. */
-  // ui_mainloop(is_batch_mode);
+  ui_mainloop(is_batch_mode);
 
-  test_expr();
+  // test_expr();
 
   return 0;
 }
