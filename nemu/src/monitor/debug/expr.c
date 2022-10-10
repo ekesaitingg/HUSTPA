@@ -222,7 +222,7 @@ uint32_t findMainOp(int p, int q)
         depth++;
         continue;
       }
-      else if (tokens[i].type == '(')
+      else if (tokens[i].type == ')')
       {
         printf("Bad expression in [%d, %d] for unexpected '(' at %d", p, q, i);
         assert(0);
