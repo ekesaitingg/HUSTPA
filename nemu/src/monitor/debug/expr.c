@@ -163,6 +163,7 @@ uint32_t check_parentheses(int p, int q)
         depth--;
     }
   }
+  depth = 0;
   for (int i = p; i <= q; i++)
   {
     if (depth < 0)
