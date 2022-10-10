@@ -238,9 +238,9 @@ uint32_t findMainOp(int p, int q)
     else
     {
       if (tokens[i].type == '(')
-        level++;
+        depth++;
       if (tokens[i].type == ')')
-        level--;
+        depth--;
     }
   }
   if (depth != 0 || level == 0)
