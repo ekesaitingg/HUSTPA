@@ -150,7 +150,7 @@ uint32_t check_parentheses(int p, int q)
   if (tokens[p].type == '(' && tokens[q].type == ')')
   {
     result = 1;
-    for (int i = p + 1; i <= q + 1; i++)
+    for (int i = p + 1; i <= q - 1; i++)
     {
       if (depth < 0) // 检查最外侧括号是否匹配。
       {
