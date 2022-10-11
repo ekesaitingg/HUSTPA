@@ -43,7 +43,7 @@ static struct rule
     {"&&", TK_AND},
     {"\\|\\|", TK_OR},
     {"\\$(\\$0|ra|sp|gp|tp|t[0-6]|a[0-7]|s([0-9]|1[0-1]))", TK_REG},
-    {"0[xX][0-9a-fA-F]", TK_HEX},
+    {"0[xX][0-9a-fA-F]+", TK_HEX},
     {"[0-9]+", TK_DEC}};
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]))
