@@ -126,13 +126,14 @@ static int cmd_p(char *args)
 {
   if (args == NULL)
   {
+    printf("No EXPR provided. Use \"help\" for help\n");
     return 0;
   }
   bool success = true;
   uint32_t result = expr(args, &success);
   if (success)
   {
-    printf("\033[0;32m %s = %d(%#x) \033[0m;\n", args, result, result);
+    printf("%s = %d(%#x)\n", args, result, result);
   }
   return 0;
 }
@@ -143,8 +144,7 @@ static int cmd_x(char *args)
   char *argEXPR = strtok(NULL, " ");
   if (argN == NULL || argEXPR == NULL)
   {
-    printf("[x] args error!\n the format of x is the following:\n");
-    cmd_help("x"); /* TODO: call the 'help x' */
+    printf("No N or EXPR provided. Use \"help\" for help\n");
     return 0;
   }
   int N = atoi(argN);
@@ -170,6 +170,7 @@ static int cmd_w(char *args)
 {
   if (args == NULL)
   {
+    printf("No EXPR provided. Use \"help\" for help\n");
     return 0;
   }
   printf("%s", args);
@@ -191,6 +192,7 @@ static int cmd_d(char *args)
 
   if (arg == NULL)
   {
+    printf("No checkpoint chosen. Use \"help\" for help.\n");
     return 0;
   }
   bool success = true;
