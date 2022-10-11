@@ -156,11 +156,11 @@ static int cmd_x(char *args)
     return 0;
   }
   int i;
-  printf("\tpaddr \t data  \t \n");
+  printf("paddr \t\t data  \t \n");
   for (i = 0; i < N; i++)
   {
     /*TODO: paddr_read ? vaddr_read? I think it should be vaddr_read! */
-    printf("\t0x%08x \t 0x%08x \n", EXPR, vaddr_read(EXPR, 4)); /* len = 4  */
+    printf("0x%08x \t\t 0x%08x \n", EXPR, vaddr_read(EXPR, 4)); /* len = 4  */
     EXPR += 4;
   }
   return 0;
