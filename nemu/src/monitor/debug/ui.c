@@ -141,25 +141,20 @@ static int cmd_x(char *args)
 {
   char *argN = strtok(NULL, " ");
   char *argEXPR = strtok(NULL, " ");
-
   if (argN == NULL || argEXPR == NULL)
   {
     printf("[x] args error!\n the format of x is the following:\n");
     cmd_help("x"); /* TODO: call the 'help x' */
     return 0;
   }
-
   int N = atoi(argN);
-
   bool success;
   uint32_t EXPR = expr(argEXPR, &success);
-
   if (!success)
   {
     printf("EXPR = %s is error!\n", argEXPR);
     return 0;
   }
-
   int i;
   printf("\tpaddr \t data  \t \n");
   for (i = 0; i < N; i++)
@@ -168,7 +163,6 @@ static int cmd_x(char *args)
     printf(" 0x%08x \t 0x%08x \n", EXPR, vaddr_read(EXPR, 4)); /* len = 4  */
     EXPR += 4;
   }
-
   return 0;
 }
 
