@@ -181,7 +181,7 @@ static int cmd_w(char *args)
   {
     return -1;
   }
-  printf("NO.%d watchpoint is setted.\n", wp->NO);
+  printf("Watchpoint %d is setted.\n", wp->NO);
   return 0;
 }
 
@@ -200,6 +200,7 @@ static int cmd_d(char *args)
     printf("exp wrong!\n");
   }
   free_wp(n);
+  printf("Watchpoint %d is deleted\n", n);
   return 0;
 }
 
