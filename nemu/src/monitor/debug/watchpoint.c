@@ -61,3 +61,51 @@ void free_wp(int NO)
     temp = temp->next;
   }
 }
+
+void watchpoints_display()
+{
+  WP *node = head;
+  printf("\033[0;34m");
+  printf("NUM                    VALUE                    EXPR\n");
+  while (node != NULL)
+  {
+    uint32_t num = node->old_value;
+    int len = 0;
+    while (num > 0)
+    {
+      num /= 10;
+      len++;
+    }
+    printf("%-16d%u(0x%-8x)%*s%s\n",
+           node->NO, node->old_value, node->old_value, (44 - 16 - 8 - len), " ", node->exp);
+    node = node->next;
+  }
+  printf("\033[0m");
+}
+
+bool check_watchpoints()
+{
+  WP *node = head;
+  bool result = true;
+  while (node != NULL)
+  {
+    bool success = true;
+    uint32_t newValue = expr(node->exp, &success);
+    if (!success)
+    {
+      assert(0);
+    }
+    if (newValue != node->old_value)
+    {
+      printf("\033[0;33m");
+      printf("watchpoints %d : %s\n", node->NO, node->exp);
+      printf("Old Value : %d(0x%x)\n", node->old_value, node->old_value);
+      printf("New Value : %d(0x%x)\n", newValue, newValue);
+      printf("\033[0m");
+      node->old_value = newValue;
+      result = false;
+    }
+    node = node->next;
+  }
+  return result;
+}

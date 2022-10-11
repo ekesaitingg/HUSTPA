@@ -8,6 +8,15 @@
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
+static int cmd_help(char *args);
+static int cmd_c(char *args);
+static int cmd_q(char *args);
+static int cmd_si(char *args);
+static int cmd_info(char *args);
+static int cmd_p(char *args);
+static int cmd_x(char *args);
+static int cmd_w(char *args);
+static int cmd_d(char *args);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char *rl_gets()
@@ -30,19 +39,6 @@ static char *rl_gets()
   return line_read;
 }
 
-static int cmd_c(char *args)
-{
-  cpu_exec(-1);
-  return 0;
-}
-
-static int cmd_q(char *args)
-{
-  return -1;
-}
-
-static int cmd_help(char *args);
-
 static struct
 {
   char *name;
@@ -54,8 +50,12 @@ static struct
     {"q", "Exit NEMU", cmd_q},
 
     /* TODO: Add more commands */
-
-};
+    {"si", "si [N] - Run N steps and stop", cmd_si},
+    {"info", "info SUBCMD - Print some info of program. SUBCMD = r(register)/w(watchpoint)", cmd_info},
+    {"p", "p EXPR - Calculate the EXP", cmd_p},
+    {"x", "x N EXPR - Scan N*4 bytes from address EXPR", cmd_x},
+    {"w", "w EXPR - Set watchpoint ,stop the program when the value of EXPR changed", cmd_w},
+    {"d", "d N - Delete watchpoint N", cmd_d}};
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
 
@@ -85,6 +85,103 @@ static int cmd_help(char *args)
     }
     printf("Unknown command '%s'\n", arg);
   }
+  return 0;
+}
+
+static int cmd_c(char *args)
+{
+  cpu_exec(-1);
+  return 0;
+}
+
+static int cmd_q(char *args)
+{
+  return -1;
+}
+
+static int cmd_si(char *args)
+{
+  char *arg = strtok(NULL, " ");
+  if (arg == NULL)
+    cpu_exec(1);
+  else
+    cpu_exec(strtoul(arg, NULL, 10));
+  return 0;
+}
+
+static int cmd_info(char *args)
+{
+  char *arg = strtok(NULL, " ");
+
+  if (arg == NULL)
+    return 0;
+  else if (strcmp(arg, "r") == 0)
+    isa_reg_display();
+  else if (strcmp(arg, "w") == 0)
+    watchpoints_display();
+  return 0;
+}
+
+static int cmd_p(char *args)
+{
+  if (args == NULL)
+  {
+    return 0;
+  }
+  bool success = true;
+  uint32_t result = expr(args, &success);
+  if (success)
+  {
+    printf("\033[0;32m %s = %d(%#x) \033[0m;\n", args, result, result);
+  }
+  return 0;
+}
+
+static int cmd_x(char *args)
+{
+  bool success = true;
+  uint32_t result = expr(args, &success);
+  if (success)
+  {
+    printf("\033[0;32m %s = %d(%#x) \033[0m;\n", args, result, result);
+  }
+  return 0;
+}
+
+static int cmd_w(char *args)
+{
+  if (args == NULL)
+  {
+    return 0;
+  }
+  printf("%s", args);
+  WP *wp = new_wp();
+  strcpy(wp->exp, args);
+  bool success = true;
+  wp->old_value = expr(wp->exp, &success);
+  if (!true)
+  {
+    return -1;
+  }
+  printf("NO.%d watchpoint is setted.\n", wp->NO);
+  return 0;
+}
+
+static int cmd_d(char *args)
+{
+  char *arg = strtok(NULL, " ");
+
+  if (arg == NULL)
+  {
+    return 0;
+  }
+  bool success = true;
+  int n = expr(arg, &success);
+  if (!success)
+  {
+    printf("exp wrong!\n");
+  }
+  free_wp(n);
   return 0;
 }
 
