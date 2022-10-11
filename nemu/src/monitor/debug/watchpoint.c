@@ -65,8 +65,7 @@ void free_wp(int NO)
 void watchpoints_display()
 {
   WP *node = head;
-  printf("\033[0;34m");
-  printf("NUM                    VALUE                    EXPR\n");
+  printf("NUM \t\t VALUE \t\t EXPR\n");
   while (node != NULL)
   {
     uint32_t num = node->old_value;
@@ -76,11 +75,10 @@ void watchpoints_display()
       num /= 10;
       len++;
     }
-    printf("%-16d%u(0x%-8x)%*s%s\n",
-           node->NO, node->old_value, node->old_value, (44 - 16 - 8 - len), " ", node->exp);
+    printf("%d\t%u(%#010x) \t %s\n",
+           node->NO, node->old_value, node->old_value, node->exp);
     node = node->next;
   }
-  printf("\033[0m");
 }
 
 bool check_watchpoints()
