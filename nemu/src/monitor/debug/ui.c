@@ -114,11 +114,17 @@ static int cmd_info(char *args)
   char *arg = strtok(NULL, " ");
 
   if (arg == NULL)
-    return 0;
+  {
+    printf("No SUBCMD input. Use \"help\" for help.\n");
+  }
   else if (strcmp(arg, "r") == 0)
     isa_reg_display();
   else if (strcmp(arg, "w") == 0)
     watchpoints_display();
+  else
+  {
+    printf("SUBCMD error. Use \"help\" for help.\n");
+  }
   return 0;
 }
 
