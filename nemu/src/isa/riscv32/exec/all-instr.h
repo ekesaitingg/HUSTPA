@@ -16,4 +16,3 @@ make_EHelper(jalr);
 make_EHelper(branch);
 make_EHelper(imm);
 make_EHelper(reg);
-make_EHelper(sys);

@@ -52,7 +52,7 @@ static OpcodeEntry opcode_table[32] = {
     IDEX(I, jalr),
     EX(nemu_trap),
     IDEX(J, jal),
-    IDEX(I, sys),
+    EMPTY,
     EMPTY,
     EMPTY,
     EMPTY,
