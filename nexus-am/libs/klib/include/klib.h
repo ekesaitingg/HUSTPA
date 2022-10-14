@@ -8,7 +8,7 @@
 #include <am.h>
 #include <stdarg.h>
 
-#define __NATIVE_USE_KLIB__
+define __NATIVE_USE_KLIB__
 
 #ifdef __NATIVE_USE_KLIB__
 #define strlen my_strlen
@@ -27,7 +27,7 @@
 #endif
 
 #ifdef __cplusplus
-extern "C"
+    extern "C"
 {
 #endif
 
@@ -36,7 +36,7 @@ extern "C"
   uint32_t uptime();
   void get_timeofday(void *rtc);
   int read_key();
-  void draw_rect(uint32_t *pixels, int x, int y, int w, int h);
+  void draw_rect(uint32_t * pixels, int x, int y, int w, int h);
   void draw_sync();
   int screen_width();
   int screen_height();
