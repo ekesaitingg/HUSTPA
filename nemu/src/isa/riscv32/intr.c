@@ -1,5 +1,4 @@
 #include "rtl/rtl.h"
-#include "cpu/exec.h"
 
 void raise_intr(uint32_t NO, vaddr_t epc)
 {
@@ -8,8 +7,7 @@ void raise_intr(uint32_t NO, vaddr_t epc)
    */
   cpu.sepc = epc;
   cpu.scause = NO;
-  decinfo.jmp_pc = decinfo.isa.stvec;
-  decinfo_set_jmp(true);
+  rtl_j(cpu.stvec);
 }
 
 bool isa_query_intr(void)
