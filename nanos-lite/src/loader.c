@@ -15,8 +15,10 @@ static uintptr_t loader(PCB *pcb, const char *filename)
   printf("try to load program %s.\n", filename);
   Elf_Ehdr head;
   int fd = fs_open(filename, 0, 0);
+  printf("fopen.\n");
   fs_lseek(fd, 0, SEEK_SET);
   fs_read(fd, &head, sizeof(head));
+  
   for (int i = 0; i < head.e_phnum; i++)
   {
     Elf_Phdr temp;
