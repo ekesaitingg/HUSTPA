@@ -29,7 +29,7 @@ void init_proc()
 
   Log("Initializing processes...");
   printf("prepare to load program.\n");
-  naive_uload(NULL, NULL);
+  naive_uload(NULL, "/bin/dummy");
   //   load program here
 }
 
