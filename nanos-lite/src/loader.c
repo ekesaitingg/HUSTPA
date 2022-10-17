@@ -18,7 +18,7 @@ static uintptr_t loader(PCB *pcb, const char *filename)
   printf("fopen.\n");
   fs_lseek(fd, 0, SEEK_SET);
   fs_read(fd, &head, sizeof(head));
-  
+
   for (int i = 0; i < head.e_phnum; i++)
   {
     Elf_Phdr temp;
@@ -38,7 +38,6 @@ static uintptr_t loader(PCB *pcb, const char *filename)
 
 void naive_uload(PCB *pcb, const char *filename)
 {
-  printf("prepare to load program %s.\n", filename);
   uintptr_t entry = loader(pcb, filename);
   Log("Jump to entry = %x", entry);
   ((void (*)())entry)();
