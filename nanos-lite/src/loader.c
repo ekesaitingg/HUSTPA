@@ -28,7 +28,6 @@ static uintptr_t loader(PCB *pcb, const char *filename)
       memset((void *)(temp.p_vaddr + temp.p_filesz), 0, temp.p_memsz - temp.p_filesz);
     }
   }
-  fs_close(fd);
   return head.e_entry;
 }
 
