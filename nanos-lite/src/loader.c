@@ -12,6 +12,7 @@
 
 static uintptr_t loader(PCB *pcb, const char *filename)
 {
+  printf("try to load program %s.\n", filename);
   Elf_Ehdr head;
   int fd = fs_open(filename, 0, 0);
   fs_lseek(fd, 0, SEEK_SET);
@@ -29,6 +30,7 @@ static uintptr_t loader(PCB *pcb, const char *filename)
     }
   }
   fs_close(fd);
+  printf("load success.\n");
   return head.e_entry;
 }
 
