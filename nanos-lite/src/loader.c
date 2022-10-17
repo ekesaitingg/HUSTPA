@@ -12,24 +12,29 @@
 
 static uintptr_t loader(PCB *pcb, const char *filename)
 {
-  Elf_Ehdr head;
   int fd = fs_open(filename, 0, 0);
-  fs_lseek(fd, 0, SEEK_SET);
-  fs_read(fd, &head, sizeof(head));
-  for (int i = 0; i < head.e_phnum; i++)
+
+  Elf_Ehdr Ehdr;
+  fs_read(fd, (void *)&Ehdr, sizeof(Elf_Ehdr));
+  if (memcmp(Ehdr.e_ident, ELFMAG, SELFMAG))
+    panic("file %s ELF format error!", filename);
+
+  for (size_t i = 0; i < Ehdr.e_phnum; ++i)
   {
-    Elf_Phdr temp;
-    fs_lseek(fd, head.e_phoff + i * head.e_phentsize, SEEK_SET);
-    fs_read(fd, &temp, sizeof(temp));
-    if (temp.p_type == PT_LOAD)
+    Elf_Phdr Phdr;
+    fs_lseek(fd, Ehdr.e_phoff + Ehdr.e_phentsize * i, SEEK_SET);
+    fs_read(fd, (void *)&Phdr, Ehdr.e_phentsize);
+    if (Phdr.p_type == PT_LOAD)
     {
-      fs_lseek(fd, temp.p_offset, SEEK_SET);
-      fs_read(fd, (void *)temp.p_vaddr, temp.p_filesz);
-      memset((void *)(temp.p_vaddr + temp.p_filesz), 0, temp.p_memsz - temp.p_filesz);
+      fs_lseek(fd, Phdr.p_offset, SEEK_SET);
+      fs_read(fd, (void *)Phdr.p_vaddr, Phdr.p_filesz);
+      memset((void *)(Phdr.p_vaddr + Phdr.p_filesz), 0, Phdr.p_memsz - Phdr.p_filesz);
     }
   }
+
   fs_close(fd);
-  return head.e_entry;
+
+  return Ehdr.e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename)
