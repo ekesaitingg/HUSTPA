@@ -7,7 +7,7 @@ static _Context *do_event(_Event e, _Context *c)
   switch (e.event)
   {
   case _EVENT_YIELD:
-    printf("self trap.\n");
+    Log("self trap.");
     break;
   case _EVENT_SYSCALL:
     // printf("Syscall!\n");
