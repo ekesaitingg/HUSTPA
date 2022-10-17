@@ -87,31 +87,30 @@ size_t fs_read(int fd, void *buf, size_t len)
 
 size_t fs_write(int fd, const void *buf, size_t len)
 {
-  fd_check(fd);
-  size_t sz;
-  if (file_table[fd].write == NULL)
+  size_t length = 0;
+  if (fd == 1 || fd == 2)
   {
-    sz = file_table[fd].open_offset + len <= file_table[fd].size ? len : file_table[fd].size - file_table[fd].open_offset;
-    sz = ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, sz);
-    file_table[fd].open_offset += sz;
-    return sz;
-  }
-  else
-  {
-    sz = len;
-    if (file_table[fd].size && file_table[fd].open_offset + len > file_table[fd].size)
+    for (int i = 0; i < len; i++)
     {
-      sz = file_table[fd].size - file_table[fd].open_offset;
+      _putc(((char *)buf)[i]);
     }
-    sz = file_table[fd].write(buf, file_table[fd].open_offset, sz);
-    file_table[fd].open_offset += sz;
-    return sz;
+    length = len;
   }
+  if (file_table[fd].open_offset + len >= file_table[fd].size)
+    len = file_table[fd].size - file_table[fd].open_offset;
+  if (fd > 2)
+  {
+    if (file_table[fd].write == NULL)
+      length = ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
+    else
+      length = file_table[fd].write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
+    file_table[fd].open_offset += length;
+  }
+  return length;
 }
 
 size_t fs_lseek(int fd, size_t offset, int whence)
 {
-  fd_check(fd);
   switch (whence)
   {
   case SEEK_SET:
@@ -123,8 +122,6 @@ size_t fs_lseek(int fd, size_t offset, int whence)
   case SEEK_END:
     file_table[fd].open_offset = file_table[fd].size + offset;
     break;
-  default:
-    panic("lseek whence error!");
   }
   return file_table[fd].open_offset;
 }
