@@ -10,7 +10,7 @@ static _Context *do_event(_Event e, _Context *c)
     printf("self trap.\n");
     break;
   case _EVENT_SYSCALL:
-    // printf("Syscall!\n");
+    printf("Syscall!\n");
     do_syscall(c);
     break;
   default:
