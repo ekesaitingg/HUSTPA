@@ -2,6 +2,13 @@
 #include "syscall.h"
 #include "fs.h"
 
+static int programBrk;
+static inline int sys_brk(int addr)
+{
+  programBrk = addr;
+  return 0;
+}
+
 _Context *do_syscall(_Context *c)
 {
   uintptr_t a[4];
@@ -33,6 +40,7 @@ _Context *do_syscall(_Context *c)
     c->GPRx = fs_lseek(a[1], a[2], a[3]);
     break;
   case SYS_brk: // syscall9
+    c->GPRx = sys_brk(a[1]);
     break;
   default:
     panic("Unhandled syscall ID = %d", a[0]);
