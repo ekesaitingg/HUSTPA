@@ -3,10 +3,8 @@
 
 int main()
 {
-  printf("text: try to open file.\n");
   FILE *fp = fopen("/share/texts/num", "r+");
-  printf("main: fp = ")
-      assert(fp);
+  assert(fp);
 
   fseek(fp, 0, SEEK_END);
   long size = ftell(fp);
