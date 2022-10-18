@@ -12,7 +12,6 @@
 
 static uintptr_t loader(PCB *pcb, const char *filename)
 {
-  printf("try to load program %s.\n", filename);
   Elf_Ehdr head;
   int fd = fs_open(filename, 0, 0);
   printf("fopen.\n");
@@ -38,7 +37,6 @@ static uintptr_t loader(PCB *pcb, const char *filename)
 
 void naive_uload(PCB *pcb, const char *filename)
 {
-  printf("try to load file : %s", filename);
   uintptr_t entry = loader(pcb, filename);
   Log("Jump to entry = %x", entry);
   ((void (*)())entry)();
