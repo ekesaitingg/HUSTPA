@@ -28,7 +28,7 @@ void init_proc()
   switch_boot_pcb();
 
   Log("Initializing processes...");
-  naive_uload(NULL, "/bin/event");
+  naive_uload(NULL, "/bin/events");
   //   load program here
 }
 
