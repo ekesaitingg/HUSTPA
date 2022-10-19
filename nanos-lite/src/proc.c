@@ -28,7 +28,7 @@ void init_proc()
   switch_boot_pcb();
 
   Log("Initializing processes...");
-  naive_uload(NULL, "/bin/pa");
+  naive_uload(NULL, "/bin/pal");
   //   load program here
 }
 
