@@ -14,7 +14,6 @@ static uintptr_t loader(PCB *pcb, const char *filename)
 {
   Elf_Ehdr head;
   int fd = fs_open(filename, 0, 0);
-  printf("fopen.\n");
   fs_lseek(fd, 0, SEEK_SET);
   fs_read(fd, &head, sizeof(head));
 
@@ -31,7 +30,7 @@ static uintptr_t loader(PCB *pcb, const char *filename)
     }
   }
   fs_close(fd);
-  printf("load success.\n");
+  Log("Open file %s success.\n", filename);
   return head.e_entry;
 }
 
