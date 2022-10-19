@@ -62,8 +62,7 @@ int fs_open(const char *pathname, int flags, int mode)
     if (strcmp(pathname, file_table[i].name) == 0)
       return i;
   }
-  panic("fs_open: file %s open failed\n", pathname);
-  assert(0);
+  panic("file %s open failed", pathname);
   return 0;
 }
 size_t fs_read(int fd, void *buf, size_t len)
