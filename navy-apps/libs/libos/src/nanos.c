@@ -38,6 +38,8 @@
 #error syscall is not supported
 #endif
 
+extern char _end;
+
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2)
 {
   register intptr_t _gpr1 asm(GPR1) = type;
@@ -51,6 +53,8 @@ intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2)
   return ret;
 }
 
+// add sys call to the target place
+
 void _exit(int status)
 {
   _syscall_(SYS_exit, status, 0, 0);
@@ -60,53 +64,44 @@ void _exit(int status)
 
 int _open(const char *path, int flags, mode_t mode)
 {
-  int ret = _syscall_(SYS_open, (intptr_t)path, flags, mode);
-  return ret;
+  int res = _syscall_(SYS_open, (uintptr_t)path, flags, mode);
+  return res;
 }
 
 int _write(int fd, void *buf, size_t count)
 {
-  int ret = _syscall_(SYS_write, fd, (intptr_t)buf, count);
-  return ret;
+  int res = _syscall_(SYS_write, fd, (intptr_t)buf, count);
+  return res;
 }
 
 void *_sbrk(intptr_t increment)
 {
-  extern uint32_t _end;
-  static uint32_t programBrk = 0;
-  if (programBrk == 0)
+  static void *program_break = (uintptr_t)&_end;
+  void *old = program_break;
+  if (_syscall_(SYS_brk, (uintptr_t)program_break + increment, 0, 0) == 0)
   {
-    programBrk = &_end;
-    _syscall_(SYS_brk, programBrk, 0, 0);
+    program_break += increment;
+    return (void *)old;
   }
-  if (_syscall_(SYS_brk, programBrk + increment, 0, 0) == 0)
-  {
-    uint32_t old_break = programBrk;
-    programBrk += increment;
-    return (void *)old_break;
-  }
-  else
-  {
-    return (void *)-1;
-  }
+  return (void *)-1;
 }
 
 int _read(int fd, void *buf, size_t count)
 {
-  int ret = _syscall_(SYS_read, fd, (intptr_t)buf, count);
-  return ret;
+  int res = _syscall_(SYS_read, fd, (uintptr_t)buf, count);
+  return res;
 }
 
 int _close(int fd)
 {
-  int ret = _syscall_(SYS_close, fd, 0, 0);
-  return ret;
+  int res = _syscall_(SYS_close, fd, 0, 0);
+  return res;
 }
 
 off_t _lseek(int fd, off_t offset, int whence)
 {
-  off_t ret = _syscall_(SYS_lseek, fd, (intptr_t)offset, whence);
-  return ret;
+  off_t res = _syscall_(SYS_lseek, fd, offset, whence);
+  return res;
 }
 
 int _execve(const char *fname, char *const argv[], char *const envp[])
