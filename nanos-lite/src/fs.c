@@ -62,7 +62,7 @@ int fs_open(const char *pathname, int flags, int mode)
     if (strcmp(pathname, file_table[i].name) == 0)
       return i;
   }
-  printf("file open failed\n");
+  panic("fs_open: file %s open failed\n", pathname);
   assert(0);
   return 0;
 }
@@ -121,6 +121,8 @@ size_t fs_lseek(int fd, size_t offset, int whence)
   case SEEK_END:
     file_table[fd].open_offset = file_table[fd].size + offset;
     break;
+  default:
+    panic("lseek whence error!");
   }
   return file_table[fd].open_offset;
 }
