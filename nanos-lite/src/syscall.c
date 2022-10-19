@@ -43,10 +43,6 @@ _Context *do_syscall(_Context *c)
   case SYS_brk: // syscall9
     c->GPRx = sys_brk(a[1]);
     break;
-  case SYS_execve:
-    naive_uload(NULL, (const char *)a[1]);
-    c->GPRx = 0;
-    break;
   default:
     panic("Unhandled syscall ID = %d", a[0]);
   }
