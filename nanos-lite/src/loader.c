@@ -30,7 +30,7 @@ static uintptr_t loader(PCB *pcb, const char *filename)
     }
   }
   fs_close(fd);
-  Log("Open file %s success.\n", filename);
+  Log("Open file %s success.", filename);
   return head.e_entry;
 }
 
