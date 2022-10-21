@@ -139,7 +139,7 @@ static int cmd_p(char *args)
   uint32_t result = expr(args, &success);
   if (success)
   {
-    printf("%s = %d(%#x)\n", args, result, result);
+    printf("%s = %d(%#08x)\n", args, result, result);
   }
   return 0;
 }
