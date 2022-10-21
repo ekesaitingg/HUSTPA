@@ -288,6 +288,8 @@ uint32_t eval(int p, int q, bool *success)
   else if (check == -1)
   {
     printf("check parentheses error in [%d, %d].\n", p, q);
+    *success = false;
+    assert(0);
   }
   else //一般表达式的情形
   {
