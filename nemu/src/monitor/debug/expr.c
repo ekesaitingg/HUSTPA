@@ -255,7 +255,6 @@ uint32_t eval(int p, int q, bool *success)
   {
     printf("Bad expression, p>q, p = %d, q = %d.\n", p, q);
     *success = false;
-    assert(0);
   }
   else if (p == q)
   {
@@ -263,7 +262,6 @@ uint32_t eval(int p, int q, bool *success)
     {
       printf("Bad expression, a single no-num token.\n");
       *success = false;
-      assert(0);
     }
     uint32_t value = 0;
     switch (tokens[p].type)
