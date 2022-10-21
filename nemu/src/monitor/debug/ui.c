@@ -139,7 +139,7 @@ static int cmd_p(char *args)
   uint32_t result = expr(args, &success);
   if (success)
   {
-    printf("%s = %d(%#08x)\n", args, result, result);
+    printf("%s = %d(%#x)\n", args, result, result);
   }
   return 0;
 }
@@ -166,7 +166,7 @@ static int cmd_x(char *args)
   for (i = 0; i < N; i++)
   {
     /*TODO: paddr_read ? vaddr_read? I think it should be vaddr_read! */
-    printf("%#010x \t 0x%#08x \n", EXPR, vaddr_read(EXPR, 4)); /* len = 4  */
+    printf("%#010x \t 0x%08x \n", EXPR, vaddr_read(EXPR, 4)); /* len = 4  */
     EXPR += 4;
   }
   return 0;
