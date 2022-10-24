@@ -11,7 +11,10 @@ typedef struct
   {
     rtlreg_t _32; // typedef uint32_t rtlreg_t
   } gpr[32];
-
+  rtlreg_t sepc;
+  rtlreg_t sstatus;
+  rtlreg_t scause;
+  rtlreg_t stvec;
   vaddr_t pc; // typedef uint32_t vaddr_t
 
 } CPU_state;
